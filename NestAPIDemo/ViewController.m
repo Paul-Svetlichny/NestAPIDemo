@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "NestAuthPresenter.h"
 
 @interface ViewController ()
+
+@property (strong, nonatomic) NestAuthPresenter *authPresenter;
 
 @end
 
@@ -17,6 +20,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+
+    _authPresenter = [[NestAuthPresenter alloc] initWithPresentingViewController:self];
+}
+
+- (IBAction)authenticateButtonPressed:(id)sender {
+    [_authPresenter showView];
 }
 
 

@@ -14,6 +14,16 @@
 		E830FFA51F97B250001C1CC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E830FFA31F97B250001C1CC5 /* LaunchScreen.storyboard */; };
 		E830FFA81F97B250001C1CC5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E830FFA71F97B250001C1CC5 /* main.m */; };
 		E830FFB21F97B250001C1CC5 /* NestAPIDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E830FFB11F97B250001C1CC5 /* NestAPIDemoTests.m */; };
+		E830FFC51F97CA4F001C1CC5 /* PSNestAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E830FFC41F97CA4F001C1CC5 /* PSNestAPIManager.m */; };
+		E830FFC71F97CA6D001C1CC5 /* PSNestAPIManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E830FFC61F97CA6D001C1CC5 /* PSNestAPIManagerTests.m */; };
+		E830FFD01F98B089001C1CC5 /* PSNestAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E830FFCF1F98B089001C1CC5 /* PSNestAuthManager.m */; };
+		E830FFD41F98B132001C1CC5 /* NestAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E830FFD31F98B132001C1CC5 /* NestAuthViewController.m */; };
+		E830FFD71F98B16C001C1CC5 /* Authentication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E830FFD61F98B16C001C1CC5 /* Authentication.storyboard */; };
+		E89AFE561F98D33100578B46 /* NestAuthPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AFE551F98D33100578B46 /* NestAuthPresenter.m */; };
+		E89AFE5A1F991C8400578B46 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AFE591F991C8400578B46 /* Settings.m */; };
+		E89AFE5D1F991FFF00578B46 /* NestAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AFE5C1F991FFF00578B46 /* NestAccessToken.m */; };
+		E8FB15AE1F9930A100E10F00 /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FB15AC1F9930A100E10F00 /* OCMockitoIOS.framework */; };
+		E8FB15AF1F9930A100E10F00 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FB15AD1F9930A100E10F00 /* OCHamcrestIOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +50,22 @@
 		E830FFAD1F97B250001C1CC5 /* NestAPIDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NestAPIDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E830FFB11F97B250001C1CC5 /* NestAPIDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NestAPIDemoTests.m; sourceTree = "<group>"; };
 		E830FFB31F97B250001C1CC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E830FFC31F97CA4F001C1CC5 /* PSNestAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSNestAPIManager.h; sourceTree = "<group>"; };
+		E830FFC41F97CA4F001C1CC5 /* PSNestAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSNestAPIManager.m; sourceTree = "<group>"; };
+		E830FFC61F97CA6D001C1CC5 /* PSNestAPIManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSNestAPIManagerTests.m; sourceTree = "<group>"; };
+		E830FFCE1F98B089001C1CC5 /* PSNestAuthManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSNestAuthManager.h; sourceTree = "<group>"; };
+		E830FFCF1F98B089001C1CC5 /* PSNestAuthManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSNestAuthManager.m; sourceTree = "<group>"; };
+		E830FFD21F98B132001C1CC5 /* NestAuthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NestAuthViewController.h; sourceTree = "<group>"; };
+		E830FFD31F98B132001C1CC5 /* NestAuthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NestAuthViewController.m; sourceTree = "<group>"; };
+		E830FFD61F98B16C001C1CC5 /* Authentication.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authentication.storyboard; sourceTree = "<group>"; };
+		E89AFE541F98D33100578B46 /* NestAuthPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NestAuthPresenter.h; sourceTree = "<group>"; };
+		E89AFE551F98D33100578B46 /* NestAuthPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NestAuthPresenter.m; sourceTree = "<group>"; };
+		E89AFE581F991A0D00578B46 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		E89AFE591F991C8400578B46 /* Settings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
+		E89AFE5B1F991FFF00578B46 /* NestAccessToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NestAccessToken.h; sourceTree = "<group>"; };
+		E89AFE5C1F991FFF00578B46 /* NestAccessToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NestAccessToken.m; sourceTree = "<group>"; };
+		E8FB15AC1F9930A100E10F00 /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMockitoIOS.framework; sourceTree = "<group>"; };
+		E8FB15AD1F9930A100E10F00 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +80,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8FB15AE1F9930A100E10F00 /* OCMockitoIOS.framework in Frameworks */,
+				E8FB15AF1F9930A100E10F00 /* OCHamcrestIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,11 +109,16 @@
 		E830FF971F97B250001C1CC5 /* NestAPIDemo */ = {
 			isa = PBXGroup;
 			children = (
+				E89AFE571F9919F700578B46 /* Settings */,
 				E830FF981F97B250001C1CC5 /* AppDelegate.h */,
 				E830FF991F97B250001C1CC5 /* AppDelegate.m */,
 				E830FF9B1F97B250001C1CC5 /* ViewController.h */,
 				E830FF9C1F97B250001C1CC5 /* ViewController.m */,
-				E830FF9E1F97B250001C1CC5 /* Main.storyboard */,
+				E830FFC31F97CA4F001C1CC5 /* PSNestAPIManager.h */,
+				E830FFC41F97CA4F001C1CC5 /* PSNestAPIManager.m */,
+				E89AFE5E1F99200600578B46 /* Data Model */,
+				E830FFD11F98B108001C1CC5 /* Authentication */,
+				E830FFD51F98B159001C1CC5 /* Storyboards */,
 				E830FFA11F97B250001C1CC5 /* Assets.xcassets */,
 				E830FFA31F97B250001C1CC5 /* LaunchScreen.storyboard */,
 				E830FFA61F97B250001C1CC5 /* Info.plist */,
@@ -97,10 +130,61 @@
 		E830FFB01F97B250001C1CC5 /* NestAPIDemoTests */ = {
 			isa = PBXGroup;
 			children = (
+				E89AFE5F1F992FF200578B46 /* Frameworks */,
 				E830FFB11F97B250001C1CC5 /* NestAPIDemoTests.m */,
+				E830FFC61F97CA6D001C1CC5 /* PSNestAPIManagerTests.m */,
 				E830FFB31F97B250001C1CC5 /* Info.plist */,
 			);
 			path = NestAPIDemoTests;
+			sourceTree = "<group>";
+		};
+		E830FFD11F98B108001C1CC5 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				E830FFCE1F98B089001C1CC5 /* PSNestAuthManager.h */,
+				E830FFCF1F98B089001C1CC5 /* PSNestAuthManager.m */,
+				E89AFE541F98D33100578B46 /* NestAuthPresenter.h */,
+				E89AFE551F98D33100578B46 /* NestAuthPresenter.m */,
+				E830FFD21F98B132001C1CC5 /* NestAuthViewController.h */,
+				E830FFD31F98B132001C1CC5 /* NestAuthViewController.m */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		E830FFD51F98B159001C1CC5 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				E830FF9E1F97B250001C1CC5 /* Main.storyboard */,
+				E830FFD61F98B16C001C1CC5 /* Authentication.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		E89AFE571F9919F700578B46 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E89AFE581F991A0D00578B46 /* Settings.h */,
+				E89AFE591F991C8400578B46 /* Settings.m */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		E89AFE5E1F99200600578B46 /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				E89AFE5B1F991FFF00578B46 /* NestAccessToken.h */,
+				E89AFE5C1F991FFF00578B46 /* NestAccessToken.m */,
+			);
+			path = "Data Model";
+			sourceTree = "<group>";
+		};
+		E89AFE5F1F992FF200578B46 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E8FB15AD1F9930A100E10F00 /* OCHamcrestIOS.framework */,
+				E8FB15AC1F9930A100E10F00 /* OCMockitoIOS.framework */,
+			);
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +269,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E830FFD71F98B16C001C1CC5 /* Authentication.storyboard in Resources */,
 				E830FFA51F97B250001C1CC5 /* LaunchScreen.storyboard in Resources */,
 				E830FFA21F97B250001C1CC5 /* Assets.xcassets in Resources */,
 				E830FFA01F97B250001C1CC5 /* Main.storyboard in Resources */,
@@ -206,8 +291,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E830FF9D1F97B250001C1CC5 /* ViewController.m in Sources */,
+				E89AFE561F98D33100578B46 /* NestAuthPresenter.m in Sources */,
 				E830FFA81F97B250001C1CC5 /* main.m in Sources */,
+				E830FFD01F98B089001C1CC5 /* PSNestAuthManager.m in Sources */,
 				E830FF9A1F97B250001C1CC5 /* AppDelegate.m in Sources */,
+				E89AFE5D1F991FFF00578B46 /* NestAccessToken.m in Sources */,
+				E830FFC51F97CA4F001C1CC5 /* PSNestAPIManager.m in Sources */,
+				E89AFE5A1F991C8400578B46 /* Settings.m in Sources */,
+				E830FFD41F98B132001C1CC5 /* NestAuthViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E830FFB21F97B250001C1CC5 /* NestAPIDemoTests.m in Sources */,
+				E830FFC71F97CA6D001C1CC5 /* PSNestAPIManagerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,7 +451,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = NestAPIDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fireflydevelop.NestAPIDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -372,7 +466,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = NestAPIDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fireflydevelop.NestAPIDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -384,8 +480,14 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/NestAPIDemoTests",
+					"$(PROJECT_DIR)/NestAPIDemoTests/Frameworks",
+				);
 				INFOPLIST_FILE = NestAPIDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fireflydevelop.NestAPIDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -398,8 +500,14 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/NestAPIDemoTests",
+					"$(PROJECT_DIR)/NestAPIDemoTests/Frameworks",
+				);
 				INFOPLIST_FILE = NestAPIDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fireflydevelop.NestAPIDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
