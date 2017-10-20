@@ -37,8 +37,7 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Authentication" bundle:nil];
         _authController = (NestAuthViewController *)[storyboard instantiateViewControllerWithIdentifier:@"NestAuthViewController"];
         
-        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@/login/oauth2?client_id=%@&state=%@", NestCurrentAPIDomain, NestClientID, NestState]]];
-        _authController.request = request;
+        _authController.request = self.authManager.loginRequest;
         _authController.delegate = self;
     }
     
@@ -53,7 +52,7 @@
 
 - (void)authenticateWithAuthCode:(NSString *)authCode {
     [self.authManager authenticateWithAuthCode:authCode success:^(NSString *accessToken) {
-        
+        NSLog(@"access token: %@", accessToken);
     } failure:^(NSError *error) {
         
     }];

@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NestAccessToken : NSObject
+@interface NestAccessToken : NSObject <NSCoding>
 
 @property (strong, nonatomic) NSString *token;
 @property (strong, nonatomic) NSDate *expiresOn;
+
+- (BOOL)isValid;
 
 + (NestAccessToken *)tokenWithTokenString:(NSString *)tokenString expiresIn:(long)seconds;
 

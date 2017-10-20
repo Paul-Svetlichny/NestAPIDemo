@@ -1,0 +1,17 @@
+//
+//  NestAPIDemo-Prefix.pch
+//  NestAPIDemo
+//
+//  Created by Paul Svetlichny on 10/19/17.
+//  Copyright © 2017 Paul Svetlichny. All rights reserved.
+//
+
+#ifndef NestAPIDemo_pch
+#define NestAPIDemo_pch
+
+#import "Settings.h"
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+#endif /* NestAPIDemo_pch */

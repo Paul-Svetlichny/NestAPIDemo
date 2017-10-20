@@ -11,6 +11,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    PSNestStructureAlarmStateOK,
+    PSNestStructureAlarmStateWarning,
+    PSNestStructureAlarmStateEmergency
+} PSNestStructureAlarmState;
+
 extern NSString * const NestClientID;
 extern NSString * const NestClientSecret;
 extern NSString * const NestCurrentAPIDomain;

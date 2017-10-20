@@ -8,9 +8,9 @@
 
 #import "NestAccessToken.h"
 
-@interface NestAccessToken () <NSCoding>
-
-@end
+//@interface NestAccessToken ()
+//
+//@end
 
 @implementation NestAccessToken
 
@@ -38,7 +38,7 @@
     return YES;
 }
 
-#pragma mark - Coding
+#pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:self.token forKey:@"token"];

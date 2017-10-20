@@ -11,11 +11,11 @@
 
 @interface PSNestAuthManager : NSObject
 
-+ (PSNestAuthManager *)sharedInstance;
-
 @property (strong, nonatomic) NSString *authCode;
 @property (strong, nonatomic) NestAccessToken *accessToken;
+@property (strong, nonatomic) NSURLRequest *loginRequest;
 
++ (PSNestAuthManager *)sharedInstance;
 - (void)authenticateWithAuthCode:(NSString *)authCode success:(void (^)(NSString *accessToken))success failure:(void (^)(NSError *error))failure;
 
 @end
