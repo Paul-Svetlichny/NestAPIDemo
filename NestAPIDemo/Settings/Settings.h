@@ -21,7 +21,7 @@ extern NSString * const NestClientID;
 extern NSString * const NestClientSecret;
 extern NSString * const NestCurrentAPIDomain;
 extern NSString * const NestState;
-extern NSString * const RedirectURL;
+extern NSString * const RedirectURLString;
 extern NSString * const NestAPIEndpoint;
 
 #endif /* Settings_h */

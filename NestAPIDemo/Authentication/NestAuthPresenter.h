@@ -10,8 +10,6 @@
 
 @interface NestAuthPresenter : NSObject
 
-@property (strong, nonatomic) UIViewController *presentingController;
-
 - (instancetype)initWithPresentingViewController:(UIViewController *)presentingController;
 
 - (void)showView;

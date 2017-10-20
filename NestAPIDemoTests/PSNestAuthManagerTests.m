@@ -1,5 +1,5 @@
 //
-//  PSNestAuthManager.m
+//  PSNestAuthManagerTests.m
 //  NestAPIDemoTests
 //
 //  Created by Paul Svetlichny on 10/19/17.

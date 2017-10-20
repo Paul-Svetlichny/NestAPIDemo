@@ -7,174 +7,48 @@
 //
 
 #import "PSNestAuthManager.h"
-#import "Settings.h"
+#import "PSNestAPIManager.h"
+#import "PSNestSessionManager.h"
+#import "PSNestRequestBuilder.h"
+#import "PSNestResponseParser.h"
 
 @interface PSNestAuthManager ()
 
-@property (strong, nonatomic) NSURLSession *urlSession;
-
-/**
- *  NSUserDefaults property dependency injection
- */
-@property (strong, nonatomic) NSUserDefaults *userDefaults;
+@property (strong, nonatomic) PSNestSessionManager *nestSessionManager;
 
 @end
 
 @implementation PSNestAuthManager
 
-@synthesize accessToken = _accessToken;
-
-+ (PSNestAuthManager *)sharedInstance {
-    static dispatch_once_t onceToken;
-    static PSNestAuthManager *sharedManager = nil;
-
-    dispatch_once(&onceToken, ^{
-        sharedManager = [[PSNestAuthManager alloc] init];
-    });
-    
-    return sharedManager;
-}
-
-- (NSUserDefaults *)userDefaults {
-    if (!_userDefaults) {
-        _userDefaults = [NSUserDefaults standardUserDefaults];
-    }
-    return _userDefaults;
-}
-
-#pragma mark - Session Flow
-
-- (BOOL)isValidSession {
-    if ([self.accessToken isValid]) {
-        return YES;
+- (instancetype)init {
+    if (self = [super init]) {
+        _nestSessionManager = [[PSNestSessionManager alloc] initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
     }
     
-    return NO;
-}
-
-#pragma mark - Requests
-
-- (NSURLRequest *)loginRequest {
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@/login/oauth2?client_id=%@&state=%@", NestCurrentAPIDomain, NestClientID, NestState]]];
-    
-    return request;
-}
-
-#pragma mark - Access Token Section
-
-- (NestAccessToken *)accessToken {
-    if (!_accessToken) {
-        
-        NSData *encodedToken = [self.userDefaults objectForKey:@"nestAccessToken"];
-        
-        if (!encodedToken) {
-            return nil;
-        }
-        
-        _accessToken = [NSKeyedUnarchiver unarchiveObjectWithData:encodedToken];
-    }
-    
-    return _accessToken;
-}
-
-- (void)setAccessToken:(NestAccessToken *)accessToken {
-    _accessToken = accessToken;
-    NSData *encodedToken = [NSKeyedArchiver archivedDataWithRootObject:_accessToken];
-    [self.userDefaults setObject:encodedToken forKey:@"nestAccessToken"];
-    [self.userDefaults synchronize];
-}
-
-- (void)invalidateAccessToken {
-    _accessToken = nil;
-    [self.userDefaults removeObjectForKey:@"nestAccessToken"];
-    [self.userDefaults synchronize];
+    return self;
 }
 
 #pragma mark - Authentication
 
-- (NSURLSession *)urlSession {
-    if (!_urlSession) {
-        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        
-        sessionConfiguration.timeoutIntervalForRequest = 30;
-        sessionConfiguration.timeoutIntervalForResource = 45;
-        
-        NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:nil delegateQueue:nil];
-        _urlSession = urlSession;
-    }
-    
-    return _urlSession;
-}
-
-- (NSURL *)authURLForAuthCode:(NSString *)authCode {
-    if (!authCode) {
-        return nil;
-    }
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://api.%@/oauth2/access_token?code=%@&client_id=%@&client_secret=%@&grant_type=authorization_code", NestCurrentAPIDomain, authCode, NestClientID, NestClientSecret]];
-    
-    return url;
-}
-
 - (void)authenticateWithAuthCode:(NSString *)authCode success:(void (^)(NSString *accessToken))success failure:(void (^)(NSError *error))failure {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    });
-
-    NSURL *authURL = [self authURLForAuthCode:authCode];
     
-    if (!authURL) {
-        failure(nil);
-        return;
-    }
+    PSNestRequestBuilder *nestRequestBuilder = [[PSNestRequestBuilder alloc] init];
+    NSMutableURLRequest *authRequest = [nestRequestBuilder authenticationRequestWithAuthCode:authCode];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:authURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15.0];
-
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-
-    NSURLSessionTask *sessionTask = [self.urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        });
-
-        if (!error) {
-            NSError *tokenError;
-            self.accessToken = [self accessTokenFromServerData:data andResponse:response andError:&tokenError];
-            if (!tokenError) {
-                success(self.accessToken.token);
-            } else {
-                failure(tokenError);
-            }
+    PSNestAPIManager *nestAPIManager = [[PSNestAPIManager alloc] initWithURLSession:_nestSessionManager.urlSession];
+    [nestAPIManager performRequest:authRequest success:^(NSData *data) {
+        PSNestResponseParser *responseParser = [[PSNestResponseParser alloc] init];
+        NSDictionary *accessTokenDictionary = [responseParser responseDictionaryFromResponseData:data];
+        if (!accessTokenDictionary[@"error"]) {
+            [_nestSessionManager setAccessTokenWithDictionary:accessTokenDictionary];
+            success(_nestSessionManager.accessToken);
+        } else {
+            failure(accessTokenDictionary[@"error"]);
         }
-        else {
-            failure(error);
-        }
+    } redirect:^(NSHTTPURLResponse *responseURL) {
+    } failure:^(NSError *error) {
+        failure(error);
     }];
-    
-    [sessionTask resume];
-}
-
-#pragma mark - Server response
-
-- (NestAccessToken *)accessTokenFromServerData:(NSData *)data andResponse:(NSURLResponse *)response andError:(NSError **)error {
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-    NSLog(@"AuthManager Token Response Status Code: %ld", (long)[httpResponse statusCode]);
-    
-    NSError *jsonParsingError;
-    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data
-                                                         options:kNilOptions
-                                                           error:&jsonParsingError];
-    
-    if (jsonParsingError) {
-//        if (error) {
-            *error = jsonParsingError;
-//        }
-    }
-    
-    long expiresIn = [[json objectForKey:@"expires_in"] longValue];
-    NSString *accessTokenString = [json objectForKey:@"access_token"];
-    
-    return [NestAccessToken tokenWithTokenString:accessTokenString expiresIn:expiresIn];
 }
 
 @end

@@ -8,13 +8,18 @@
 
 #import "NestAuthPresenter.h"
 #import "PSNestAuthManager.h"
+#import "PSNestRequestBuilder.h"
+#import "PSNestResponseParser.h"
 #import "NestAuthViewController.h"
 #import "Settings.h"
+
+#import "PSNestAPIManager.h"
 
 @interface NestAuthPresenter () <NestAuthViewControllerDelegate>
 
 @property (strong, nonatomic) NestAuthViewController *authController;
 @property (strong, nonatomic) PSNestAuthManager *authManager;
+@property (strong, nonatomic) UIViewController *presentingController;
 
 @end
 
@@ -29,7 +34,11 @@
 }
 
 - (PSNestAuthManager *)authManager {
-    return [PSNestAuthManager sharedInstance];
+    if (!_authManager) {
+        _authManager = [[PSNestAuthManager alloc] init];
+    }
+    
+    return _authManager;
 }
 
 - (NestAuthViewController *)authController {
@@ -37,7 +46,8 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Authentication" bundle:nil];
         _authController = (NestAuthViewController *)[storyboard instantiateViewControllerWithIdentifier:@"NestAuthViewController"];
         
-        _authController.request = self.authManager.loginRequest;
+        PSNestRequestBuilder *nestRequestBuilder = [[PSNestRequestBuilder alloc] init];
+        _authController.request = [nestRequestBuilder loginRequest];
         _authController.delegate = self;
     }
     
@@ -52,6 +62,8 @@
 
 - (void)authenticateWithAuthCode:(NSString *)authCode {
     [self.authManager authenticateWithAuthCode:authCode success:^(NSString *accessToken) {
+//        NSURLRequest *request = [[PSNestAPIManager ]]
+        
         NSLog(@"access token: %@", accessToken);
     } failure:^(NSError *error) {
         
@@ -61,26 +73,16 @@
 #pragma mark - Nest Auth View Controller Delegate
 
 - (void)nestAuthViewController:(NestAuthViewController *)authController didRecieveServerResponceURL:(NSURL *)responseURL {
-    NSURL *redirectURL = [[NSURL alloc] initWithString:RedirectURL];
+    PSNestResponseParser *responseParser = [[PSNestResponseParser alloc] init];
     
-    if ([[responseURL host] isEqualToString:[redirectURL host]]) {
-        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:responseURL
-                                                    resolvingAgainstBaseURL:NO];
-        NSArray *queryItems = urlComponents.queryItems;
-        NSString *authCode = [self valueForKey:@"code" fromQueryItems:queryItems];
-
+    NSString *authCode = [responseParser authCodeFromResponse:responseURL];
+    
+    if (authCode) {
         [self authenticateWithAuthCode:authCode];
         
         [self.presentingController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
-- (NSString *)valueForKey:(NSString *)key fromQueryItems:(NSArray *)queryItems {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", key];
-    NSURLQueryItem *queryItem = [[queryItems
-                                  filteredArrayUsingPredicate:predicate]
-                                 firstObject];
-    return queryItem.value;
-}
 
 @end

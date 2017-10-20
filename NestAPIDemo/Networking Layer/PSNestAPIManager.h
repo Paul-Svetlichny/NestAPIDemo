@@ -10,4 +10,11 @@
 
 @interface PSNestAPIManager : NSObject
 
+- (instancetype)initWithURLSession:(NSURLSession *)urlSession;
+
+- (void)performRequest:(NSMutableURLRequest *)request
+               success:(void (^)(NSData *data))success
+              redirect:(void (^)(NSHTTPURLResponse *responseURL))redirect
+               failure:(void (^)(NSError *error))failure;
+
 @end
