@@ -36,6 +36,12 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.delegate nestStructureViewDidAppear:self];
+}
+
 #pragma mark - Setters
 
 - (void)setStructureName:(NSString *)structureName {

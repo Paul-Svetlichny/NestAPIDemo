@@ -18,9 +18,11 @@
 
 @interface NestAuthPresenter () <NestAuthViewControllerDelegate>
 
+@property (strong, nonatomic, readwrite) UIViewController *presentingController;
+
 @property (strong, nonatomic) NestAuthViewController *authController;
 @property (strong, nonatomic) PSNestAuthManager *authManager;
-@property (strong, nonatomic) UIViewController *presentingController;
+@property (strong, nonatomic) NestStructurePresenter *structurePresenter;
 
 @end
 
@@ -56,7 +58,7 @@
 }
 
 - (void)showView {
-    [_presentingController presentViewController:self.authController animated:YES completion:nil];
+    [self.presentingController presentViewController:self.authController animated:YES completion:nil];
 }
 
 #pragma mark - Authentication
@@ -64,8 +66,8 @@
 - (void)authenticateWithAuthCode:(NSString *)authCode {
     [self.authManager authenticateWithAuthCode:authCode success:^(NSString *accessToken) {
         [self.presentingController dismissViewControllerAnimated:YES completion:^{
-            NestStructurePresenter *structurePresenter = [[NestStructurePresenter alloc] initWithPresentingViewController:_presentingController];
-            [structurePresenter showView];
+            self.structurePresenter = [[NestStructurePresenter alloc] initWithPresentingViewController:_presentingController];
+            [self.structurePresenter showView];
         }];
 
         NSLog(@"access token: %@", accessToken);

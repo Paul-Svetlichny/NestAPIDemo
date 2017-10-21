@@ -11,14 +11,6 @@
 #import <OCMockitoIOS/OCMockitoIOS.h>
 
 #import "PSNestAuthManager.h"
-#import "NestAccessToken.h"
-
-@interface PSNestAuthManager (DependencyInjection)
-
-- (void)setUserDefaults:(NSUserDefaults *)userDefaults;
-- (NSURL *)authURLForAuthCode:(NSString *)authCode;
-
-@end
 
 @interface PSNestAuthManagerTests : XCTestCase
 
@@ -30,7 +22,7 @@
 
 - (void)setUp {
     [super setUp];
-    _sut = [PSNestAuthManager sharedInstance];
+    _sut = [[PSNestAuthManager alloc] init];
 }
 
 - (void)tearDown {
@@ -38,32 +30,11 @@
     [super tearDown];
 }
 
-- (void)testAccessTokenGetterShouldReturnNilIfAccessTokenIsNotStoredProperly {
-    NSUserDefaults *mockUserDefaults = mock([NSUserDefaults class]);
-    _sut.userDefaults = mockUserDefaults;
-    [given([mockUserDefaults objectForKey:@"nestAccessToken"]) willReturn:nil];
-
-    assertThat(_sut.accessToken, is(nilValue()));
-}
-
-- (void)testAccessTokenGetterShouldReturnValidTokenIfStoredProperly {
-    NSUserDefaults *mockUserDefaults = mock([NSUserDefaults class]);
-    NestAccessToken *accessToken = [NestAccessToken tokenWithTokenString:@"Some string" expiresIn:10];
-    NSData *encodedToken = [NSKeyedArchiver archivedDataWithRootObject:accessToken];
-
-    _sut.userDefaults = mockUserDefaults;
-    [given([mockUserDefaults objectForKey:@"nestAccessToken"]) willReturn:encodedToken];
+- (void)testNestAPIManagerDidInvokePerformRequestWithProperRequest {
     
-    assertThat(_sut.accessToken, isNot(nilValue()));
-}
-
-- (void)testAuthCodeURLShouldReturnNilIfAuthCodeIsNil {
-    assertThat([_sut authURLForAuthCode:nil], is(nilValue()));
 }
 
 - (void)testAuthenticateWithAuthCodeShouldReturnFailureCallbackIfAuthCodeIsNil {
-    [given([_sut authURLForAuthCode:nil]) willReturn:nil];
-    
     __block BOOL failureBlockInvoked = NO;
 
     [_sut authenticateWithAuthCode:nil success:^(NSString *accessToken) {

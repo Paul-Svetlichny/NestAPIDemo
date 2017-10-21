@@ -59,8 +59,6 @@
 - (void)showView {
     if (_presentingController.navigationController) {
         _presentingController.navigationController.viewControllers = @[self.structureController];
-        
-        [self loadStructure];
     }
 }
 
@@ -128,6 +126,10 @@
 }
 
 #pragma mark - Nest Structure View Controller Delegate
+
+- (void)nestStructureViewDidAppear:(UIViewController *)controller {
+    [self loadStructure];
+}
 
 - (void)nestStructureViewControllerDidSelectThermostatButton:(UIViewController *)controller {
     NSString *thermostatId = _structure.thermostats[0];

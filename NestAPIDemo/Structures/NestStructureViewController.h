@@ -16,6 +16,7 @@
 - (void)nestStructureViewControllerDidSelectAlarmButton:(UIViewController *)controller;
 - (void)nestStructureViewControllerDidSelectIndoorCamerasButton:(UIViewController *)controller;
 - (void)nestStructureViewControllerDidSelectOutdoorCamerasButton:(UIViewController *)controller;
+- (void)nestStructureViewDidAppear:(UIViewController *)controller;
 
 @end
 

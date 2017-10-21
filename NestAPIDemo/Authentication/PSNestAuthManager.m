@@ -32,6 +32,11 @@
 
 - (void)authenticateWithAuthCode:(NSString *)authCode success:(void (^)(NSString *accessToken))success failure:(void (^)(NSError *error))failure {
     
+    if (authCode.length == 0) {
+        failure([NSError errorWithDomain:@"com.fireflydevelop.AuthManager" code:0 userInfo:@{NSLocalizedDescriptionKey : @"Auth code is empty"}]);
+        return;
+    }
+    
     PSNestRequestBuilder *nestRequestBuilder = [[PSNestRequestBuilder alloc] init];
     NSMutableURLRequest *authRequest = [nestRequestBuilder authenticationRequestWithAuthCode:authCode];
     

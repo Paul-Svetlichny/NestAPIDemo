@@ -26,35 +26,6 @@
             </objects>
             <point key="canvasLocation" x="425" y="143"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vxD-oL-wai">
-                                <rect key="frame" x="163.5" y="318" width="47" height="30"/>
-                                <state key="normal" title="Sign In"/>
-                                <connections>
-                                    <action selector="authenticateButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rpe-em-XwF"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="vxD-oL-wai" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="49Z-TJ-KqW"/>
-                            <constraint firstItem="vxD-oL-wai" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="c6D-GI-8jj"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="vFp-7n-Xf7"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1119" y="143"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="mOU-x9-Xi9">
             <objects>

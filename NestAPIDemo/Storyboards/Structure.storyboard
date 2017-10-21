@@ -75,7 +75,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="167" height="158"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No items added" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="udR-R8-ciw" customClass="PSUILabel">
-                                                            <rect key="frame" x="50.784700365636496" y="12.812132224688398" width="66.930599268727008" height="132.37573555062323"/>
+                                                            <rect key="frame" x="18" y="67.5" width="132.5" height="23"/>
                                                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>

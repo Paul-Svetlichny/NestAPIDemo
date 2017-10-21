@@ -24,9 +24,9 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _sessionManager = [[PSNestSessionManager alloc] initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
-        _apiManager = [[PSNestAPIManager alloc] initWithURLSession:_sessionManager.urlSession];
-        _nestRequestBuilder = [[PSNestRequestBuilder alloc] init];
+        self.sessionManager = [[PSNestSessionManager alloc] initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
+        self.apiManager = [[PSNestAPIManager alloc] initWithURLSession:self.sessionManager.urlSession];
+        self.nestRequestBuilder = [[PSNestRequestBuilder alloc] init];
     }
     
     return self;
@@ -34,11 +34,11 @@
 
 - (void)nestThermostatWithThermostatId:(NSString *)thermostatId andCallback:(void (^)(NestThermostat *thermostat, NSError *error))callback {
     
-    NSMutableURLRequest *request = [_nestRequestBuilder requestForBaseURLString:@"https://developer-api.nest.com" andPath:[NSString stringWithFormat:@"devices/thermostats/%@", thermostatId] andRequestMethod:@"GET" withData:nil andAccessToken:_sessionManager.accessToken];
+    NSMutableURLRequest *request = [self.nestRequestBuilder requestForBaseURLString:@"https://developer-api.nest.com" andPath:[NSString stringWithFormat:@"devices/thermostats/%@", thermostatId] andRequestMethod:@"GET" withData:nil andAccessToken:self.sessionManager.accessToken];
     
     __block PSNestResponseParser *parser = [[PSNestResponseParser alloc] init];
     
-    [_apiManager performRequest:request success:^(NSData *data) {
+    [self.apiManager performRequest:request success:^(NSData *data) {
         NSDictionary *thermostatDictionary = [parser responseDictionaryFromResponseData:data];
         if (!thermostatDictionary[@"error"]) {
             NestThermostat *thermostat = [[NestThermostat alloc] initWithDictionary:thermostatDictionary];
@@ -47,8 +47,8 @@
             callback(nil, thermostatDictionary[@"error"]);
         }
     } redirect:^(NSHTTPURLResponse *responseURL) {
-        NSMutableURLRequest *redirectRequest = [_nestRequestBuilder requestForBaseURLString:[[responseURL URL] absoluteString] andPath:nil andRequestMethod:@"GET" withData:nil andAccessToken:_sessionManager.accessToken];
-        [_apiManager performRequest:redirectRequest success:^(NSData *data) {
+        NSMutableURLRequest *redirectRequest = [self.nestRequestBuilder requestForBaseURLString:[[responseURL URL] absoluteString] andPath:nil andRequestMethod:@"GET" withData:nil andAccessToken:self.sessionManager.accessToken];
+        [self.apiManager performRequest:redirectRequest success:^(NSData *data) {
             NSDictionary *thermostatDictionary = [parser responseDictionaryFromResponseData:data];
             if (!thermostatDictionary[@"error"]) {
                 NestThermostat *thermostat = [[NestThermostat alloc] initWithDictionary:thermostatDictionary];
@@ -67,7 +67,6 @@
 
 - (void)setTargetTemperature:(NSNumber *)targetTemperature forTemperatureScale:(NSString *)scale forThermostsatWithId:(NSString *)thermostatId withCallback:(void (^)(NSNumber *targetTemperature))callback {
     
-    __block NSData *data;
     __block NSString *parameterKey;
     if ([scale isEqualToString:@"C"]) {
         parameterKey = @"target_temperature_c";
@@ -76,13 +75,13 @@
     }
 
     NSDictionary *dictionary = @{parameterKey : targetTemperature};
-    data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:nil];
+    __block NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:nil];
 
-    NSMutableURLRequest *request = [_nestRequestBuilder requestForBaseURLString:@"https://developer-api.nest.com" andPath:[NSString stringWithFormat:@"devices/thermostats/%@/", thermostatId] andRequestMethod:@"PUT" withData:data andAccessToken:_sessionManager.accessToken];
+    NSMutableURLRequest *request = [self.nestRequestBuilder requestForBaseURLString:@"https://developer-api.nest.com" andPath:[NSString stringWithFormat:@"devices/thermostats/%@/", thermostatId] andRequestMethod:@"PUT" withData:data andAccessToken:self.sessionManager.accessToken];
     
     __block PSNestResponseParser *parser = [[PSNestResponseParser alloc] init];
     
-    [_apiManager performRequest:request success:^(NSData *data) {
+    [self.apiManager performRequest:request success:^(NSData *data) {
         NSDictionary *thermostatDictionary = [parser responseDictionaryFromResponseData:data];
         if (!thermostatDictionary[@"error"]) {
             callback(thermostatDictionary[parameterKey]);
@@ -90,8 +89,8 @@
             callback(nil);
         }
     } redirect:^(NSHTTPURLResponse *responseURL) {
-        NSMutableURLRequest *redirectRequest = [_nestRequestBuilder requestForBaseURLString:[[responseURL URL] absoluteString] andPath:nil andRequestMethod:@"PUT" withData:data andAccessToken:_sessionManager.accessToken];
-        [_apiManager performRequest:redirectRequest success:^(NSData *data) {
+        NSMutableURLRequest *redirectRequest = [self.nestRequestBuilder requestForBaseURLString:[[responseURL URL] absoluteString] andPath:nil andRequestMethod:@"PUT" withData:data andAccessToken:self.sessionManager.accessToken];
+        [self.apiManager performRequest:redirectRequest success:^(NSData *data) {
             NSDictionary *thermostatDictionary = [parser responseDictionaryFromResponseData:data];
             if (!thermostatDictionary[@"error"]) {
                 callback(thermostatDictionary[parameterKey]);
@@ -112,11 +111,11 @@
     NSDictionary *dictionary = @{@"temperature_scale" : scale};
     __block NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:nil];;
 
-    NSMutableURLRequest *request = [_nestRequestBuilder requestForBaseURLString:@"https://developer-api.nest.com" andPath:[NSString stringWithFormat:@"devices/thermostats/%@/", thermostatId] andRequestMethod:@"PUT" withData:data andAccessToken:_sessionManager.accessToken];
+    NSMutableURLRequest *request = [self.nestRequestBuilder requestForBaseURLString:@"https://developer-api.nest.com" andPath:[NSString stringWithFormat:@"devices/thermostats/%@/", thermostatId] andRequestMethod:@"PUT" withData:data andAccessToken:self.sessionManager.accessToken];
     
     __block PSNestResponseParser *parser = [[PSNestResponseParser alloc] init];
     
-    [_apiManager performRequest:request success:^(NSData *data) {
+    [self.apiManager performRequest:request success:^(NSData *data) {
         NSDictionary *thermostatDictionary = [parser responseDictionaryFromResponseData:data];
         if (!thermostatDictionary[@"error"]) {
             callback(thermostatDictionary[@"temperature_scale"]);
@@ -124,8 +123,8 @@
             callback(nil);
         }
     } redirect:^(NSHTTPURLResponse *responseURL) {
-        NSMutableURLRequest *redirectRequest = [_nestRequestBuilder requestForBaseURLString:[[responseURL URL] absoluteString] andPath:nil andRequestMethod:@"PUT" withData:data andAccessToken:_sessionManager.accessToken];
-        [_apiManager performRequest:redirectRequest success:^(NSData *data) {
+        NSMutableURLRequest *redirectRequest = [self.nestRequestBuilder requestForBaseURLString:[[responseURL URL] absoluteString] andPath:nil andRequestMethod:@"PUT" withData:data andAccessToken:self.sessionManager.accessToken];
+        [self.apiManager performRequest:redirectRequest success:^(NSData *data) {
             NSDictionary *thermostatDictionary = [parser responseDictionaryFromResponseData:data];
             if (!thermostatDictionary[@"error"]) {
                 callback(thermostatDictionary[@"temperature_scale"]);

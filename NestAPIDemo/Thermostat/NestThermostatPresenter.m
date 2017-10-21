@@ -26,8 +26,8 @@
 
 - (instancetype)initWithThermostatId:(NSString *)thermostatId andPresentingViewController:(UIViewController *)presentingController {
     if (self = [super init]) {
-        _thermostatId = thermostatId;
-        _presentingController = presentingController;
+        self.thermostatId = thermostatId;
+        self.presentingController = presentingController;
     }
     
     return self;
@@ -53,42 +53,42 @@
 }
 
 - (void)showView {
-    if (_presentingController.navigationController) {
-        [_presentingController.navigationController pushViewController:self.thermostatController animated:YES];
-        [self loadThermostatWithId:_thermostatId];
+    if (self.presentingController.navigationController) {
+        [self.presentingController.navigationController pushViewController:self.thermostatController animated:YES];
+        [self loadThermostatWithId:self.thermostatId];
     }
 }
 
 - (void)loadThermostatWithId:(NSString *)thermostatId {
-    [self.thermostatManager nestThermostatWithThermostatId:_thermostatId andCallback:^(NestThermostat *thermostat, NSError *error) {
+    [self.thermostatManager nestThermostatWithThermostatId:self.thermostatId andCallback:^(NestThermostat *thermostat, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            _thermostat = thermostat;
+            self.thermostat = thermostat;
             
-            [self displayTemperatureScale:_thermostat.temperatureScale];
+            [self displayTemperatureScale:self.thermostat.temperatureScale];
             
-            [self displayThermostatName:_thermostat.name];
+            [self displayThermostatName:self.thermostat.name];
             
-            [self displayHumidity:_thermostat.humidity];
+            [self displayHumidity:self.thermostat.humidity];
 
-            [self displayHVACSate:_thermostat.hvacState];
+            [self displayHVACSate:self.thermostat.hvacState];
             
-            if ([_thermostat.temperatureScale isEqualToString:@"C"]) {
-                [self displayAmbientTemperature:_thermostat.ambientTemperatureC];
+            if ([self.thermostat.temperatureScale isEqualToString:@"C"]) {
+                [self displayAmbientTemperature:self.thermostat.ambientTemperatureC];
                 
-                [self displayTargetTemperature:_thermostat.targetTemperatureC];
+                [self displayTargetTemperature:self.thermostat.targetTemperatureC];
             } else {
-                [self displayAmbientTemperature:_thermostat.ambientTemperatureF];
+                [self displayAmbientTemperature:self.thermostat.ambientTemperatureF];
                 
-                [self displayTargetTemperature:_thermostat.targetTemperatureF];
+                [self displayTargetTemperature:self.thermostat.targetTemperatureF];
             }
             
-            [self displayCanCool:_thermostat.canCool];
+            [self displayCanCool:self.thermostat.canCool];
             
-            [self displayHasFan:_thermostat.hasFan];
+            [self displayHasFan:self.thermostat.hasFan];
             
-            [self displayCanHeat:_thermostat.canHeat];
+            [self displayCanHeat:self.thermostat.canHeat];
             
-            [self displayFanTimerActive:_thermostat.fanTimerActive];
+            [self displayFanTimerActive:self.thermostat.fanTimerActive];
         });
     }];
 }
@@ -142,22 +142,23 @@
     if (segment == 0) {
         temperatureScale = @"F";
         [self displayTemperatureScale:temperatureScale];
-        [self displayTargetTemperature:_thermostat.targetTemperatureF];
-        [self displayAmbientTemperature:_thermostat.ambientTemperatureF];
+        [self displayTargetTemperature:self.thermostat.targetTemperatureF];
+        [self displayAmbientTemperature:self.thermostat.ambientTemperatureF];
     } else {
         temperatureScale = @"C";
         [self displayTemperatureScale:temperatureScale];
-        [self displayTargetTemperature:_thermostat.targetTemperatureC];
-        [self displayAmbientTemperature:_thermostat.ambientTemperatureC];
+        [self displayTargetTemperature:self.thermostat.targetTemperatureC];
+        [self displayAmbientTemperature:self.thermostat.ambientTemperatureC];
     }
 
-    [self.thermostatManager setTemperatureScale:temperatureScale forThermostsatWithId:_thermostatId withCallback:^(NSString *temperatureScale) {
+    [self.thermostatManager setTemperatureScale:temperatureScale forThermostsatWithId:self.thermostatId withCallback:^(NSString *temperatureScale) {
+        self.thermostat.temperatureScale = temperatureScale;
     }];
 }
 
 - (void)nestThermostatViewController:(UIViewController *)controller didChangeTargetTemperatureToValue:(NSNumber *)value {
     __weak id weakself = self;
-    [self.thermostatManager setTargetTemperature:value forTemperatureScale:_thermostat.temperatureScale forThermostsatWithId:_thermostat.thermostatId withCallback:^(NSNumber *targetTemperature) {
+    [self.thermostatManager setTargetTemperature:value forTemperatureScale:self.thermostat.temperatureScale forThermostsatWithId:self.thermostat.thermostatId withCallback:^(NSNumber *targetTemperature) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakself displayTargetTemperature:targetTemperature];
         });
