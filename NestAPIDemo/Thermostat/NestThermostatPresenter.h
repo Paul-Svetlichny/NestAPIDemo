@@ -10,4 +10,7 @@
 
 @interface NestThermostatPresenter : NSObject
 
+- (instancetype)initWithThermostatId:(NSString *)thermostatId andPresentingViewController:(UIViewController *)presentingController;
+- (void)showView;
+
 @end

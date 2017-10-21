@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSString *thermostatId;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *temperatureScale;
+@property (assign, nonatomic) NSString *hvacState;
 
 @property (strong, nonatomic) NSNumber *ambientTemperatureF;
 @property (strong, nonatomic) NSNumber *targetTemperatureF;
@@ -24,8 +25,6 @@
 @property (assign, nonatomic) BOOL canCool;
 @property (assign, nonatomic) BOOL canHeat;
 @property (assign, nonatomic) BOOL fanTimerActive;
-
-@property (assign, nonatomic) PSNestThermostatHVACState hvacState;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

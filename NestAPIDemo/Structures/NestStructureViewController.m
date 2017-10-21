@@ -40,9 +40,9 @@
 
 - (void)setStructureName:(NSString *)structureName {
     _structureName = structureName;
-    _structureNameLabel.text = _structureName;
-    if (![_structureName isEqualToString:@"Casa Del Max"]) {
-        _structureImageView.image = [UIImage imageNamed:@"house"];
+    self.structureNameLabel.text = structureName;
+    if (![structureName isEqualToString:@"Casa Del Max"]) {
+        self.structureImageView.image = [UIImage imageNamed:@"house"];
     }
 }
 
@@ -84,6 +84,12 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = (UICollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"structureCell" forIndexPath:indexPath];
     
+    cell.layer.borderColor = [[UIColor blackColor] CGColor];
+    cell.layer.borderWidth = 1;
+    cell.layer.cornerRadius = 5;
+    
+    cell.layer.masksToBounds = YES;
+    
     [self configureCell:cell forItemAtIndexPath:indexPath];
     
     return cell;
@@ -97,25 +103,25 @@
     switch (indexPath.row) {
         case 0:
         {
-            numberOfItems = _numberOfThermostats;
+            numberOfItems = self.numberOfThermostats;
             title = @"Thermostats";
         }
             break;
         case 1:
         {
-            numberOfItems = _numberOfAlarms;
+            numberOfItems = self.numberOfAlarms;
             title = @"Smoke + CO Alarms";
         }
             break;
         case 2:
         {
-            numberOfItems = _numberOfIndoorCameras;
+            numberOfItems = self.numberOfIndoorCameras;
             title = @"Indoor Cams";
         }
             break;
         case 3:
         {
-            numberOfItems = _numberOfOutdoorCameras;
+            numberOfItems = self.numberOfOutdoorCameras;
             title = @"Outdoor Cams";
         }
             break;
@@ -141,26 +147,66 @@
     }
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:
         {
-            [_delegate nestStructureViewControllerDidSelectThermostatButton:self];
+            if (self.numberOfThermostats == 0) {
+                return NO;
+            }
         }
             break;
         case 1:
         {
-            [_delegate nestStructureViewControllerDidSelectAlarmButton:self];
+            if (self.numberOfAlarms == 0) {
+                return NO;
+            }
         }
             break;
         case 2:
         {
-            [_delegate nestStructureViewControllerDidSelectIndoorCamerasButton:self];
+            if (self.numberOfIndoorCameras == 0) {
+                return NO;
+            }
         }
             break;
         case 3:
         {
-            [_delegate nestStructureViewControllerDidSelectOutdoorCamerasButton:self];
+            if (self.numberOfOutdoorCameras == 0) {
+                return NO;
+            }
+        }
+            break;
+        default:
+        {
+            return NO;
+        }
+            break;
+    }
+    
+    return YES;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.row) {
+        case 0:
+        {
+            [self.delegate nestStructureViewControllerDidSelectThermostatButton:self];
+        }
+            break;
+        case 1:
+        {
+            [self.delegate nestStructureViewControllerDidSelectAlarmButton:self];
+        }
+            break;
+        case 2:
+        {
+            [self.delegate nestStructureViewControllerDidSelectIndoorCamerasButton:self];
+        }
+            break;
+        case 3:
+        {
+            [self.delegate nestStructureViewControllerDidSelectOutdoorCamerasButton:self];
         }
             break;
         default:

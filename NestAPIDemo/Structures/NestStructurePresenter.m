@@ -9,6 +9,7 @@
 #import "NestStructurePresenter.h"
 #import "NestStructureViewController.h"
 #import "PSNestStructureManager.h"
+#import "NestThermostatPresenter.h"
 
 #import "PSNestRequestBuilder.h"
 #import "PSNestResponseParser.h"
@@ -20,6 +21,9 @@
 @property (strong, nonatomic) UIViewController *presentingController;
 @property (strong, nonatomic) NestStructureViewController *structureController;
 @property (strong, nonatomic) PSNestStructureManager *structureManager;
+@property (strong, nonatomic) NestThermostatPresenter *thermostatPresenter;
+
+@property (strong, nonatomic) NestStructure *structure;
 
 @end
 
@@ -62,12 +66,13 @@
 
 - (void)loadStructure {
     [self.structureManager nestStructureWithCallback:^(NestStructure *structure, NSError *error) {
+        _structure = structure;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self displayStructureName:structure.name];
+            [self displayStructureName:_structure.name];
             
-            [self displayNumberOfThermostats:structure.thermostats.count];
+            [self displayNumberOfThermostats:_structure.thermostats.count];
             
-            [self displayNumberOfAlarms:structure.smokeCOAlarms.count];
+            [self displayNumberOfAlarms:_structure.smokeCOAlarms.count];
             
             //        There is no camera support in this demo
             [self displayNumberOfIndoorCams:0];
@@ -75,7 +80,7 @@
             //        There is no camera support in this demo
             [self displayNumberOfOutdoorCams:0];
             
-            [self displaySmokeAlarmState:structure.smokeAlarmState];
+            [self displaySmokeAlarmState:_structure.smokeAlarmState];
         });
     }];
 }
@@ -125,7 +130,9 @@
 #pragma mark - Nest Structure View Controller Delegate
 
 - (void)nestStructureViewControllerDidSelectThermostatButton:(UIViewController *)controller {
-    
+    NSString *thermostatId = _structure.thermostats[0];
+    _thermostatPresenter = [[NestThermostatPresenter alloc] initWithThermostatId:thermostatId andPresentingViewController:self.structureController];
+    [_thermostatPresenter showView];
 }
 
 - (void)nestStructureViewControllerDidSelectAlarmButton:(UIViewController *)controller {

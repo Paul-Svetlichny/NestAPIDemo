@@ -14,7 +14,8 @@
     if (self = [super init]) {
         self.thermostatId = dictionary[@"device_id"];
         self.name = dictionary[@"name"];
-        self.hvacState = [self hvacStateForStateString:dictionary[@"hvac_state"]];
+//        self.hvacState = [self hvacStateForStateString:dictionary[@"hvac_state"]];
+        self.hvacState = dictionary[@"hvac_state"];
         self.temperatureScale = dictionary[@"temperature_scale"];
         
         self.ambientTemperatureF = dictionary[@"ambient_temperature_f"];
@@ -31,7 +32,7 @@
     
     return self;
 }
-
+/*
 - (PSNestThermostatHVACState)hvacStateForStateString:(NSString *)state {
     if ([state isEqualToString:@"heating"]) {
         return PSNestThermostatHVACStateHeating;
@@ -47,5 +48,5 @@
     
     return PSNestThermostatHVACStateUndefined;
 }
-
+*/
 @end

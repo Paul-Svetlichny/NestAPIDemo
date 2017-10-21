@@ -26,10 +26,16 @@
     [apiManager performRequest:request success:^(NSData *data) {
         NSDictionary *structureDictionary = [parser responseDictionaryFromResponseData:data];
         if (!structureDictionary[@"error"]) {
-            NestStructure *structure = [[NestStructure alloc] initWithDictionary:structureDictionary];
-            callback(structure, nil);
-        } else {
+            NSArray *structures = [structureDictionary allKeys];
+            
+            if (structures.count > 0) {
+                NSString *structureId = structures[0];
+                
+                NestStructure *structure = [[NestStructure alloc] initWithDictionary:structureDictionary[structureId]];
+                callback(structure, nil);
+            } else {
             callback(nil, structureDictionary[@"error"]);
+            }
         }
     } redirect:^(NSHTTPURLResponse *responseURL) {
         NSMutableURLRequest *redirectRequest = [nestRequestBuilder requestForBaseURLString:[[responseURL URL] absoluteString] andPath:nil andRequestMethod:@"GET" withData:nil andAccessToken:sessionManager.accessToken];

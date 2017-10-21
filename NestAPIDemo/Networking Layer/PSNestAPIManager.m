@@ -30,7 +30,7 @@
                failure:(void (^)(NSError *error))failure {
     NSURLSessionTask *sessionTask = [self.urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         });
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -43,14 +43,23 @@
             NSDictionary *responseHeaders = [httpResponse allHeaderFields];
             if ([[responseHeaders objectForKey:@"Content-Length"] isEqual: @"0"]) {
                 // This is a true 401
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                });
                 failure(error);
             } else {
                 // It's actually a redirect
                 redirect(httpResponse);
             }
         } else if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            });
             failure(error);
         } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            });
             success(data);
         }
     }];

@@ -55,22 +55,18 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="structureCell" id="Hbo-gG-kpT">
+                                    <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="structureCell" id="Hbo-gG-kpT">
                                         <rect key="frame" x="0.0" y="0.0" width="167" height="158"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="167" height="158"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Lc-YK-aQ9">
-                                                    <rect key="frame" x="52" y="0.0" width="64" height="64"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="64" id="1ZL-Op-nOf"/>
-                                                        <constraint firstAttribute="width" secondItem="3Lc-YK-aQ9" secondAttribute="height" multiplier="1:1" id="qoa-Qk-gxf"/>
-                                                    </constraints>
+                                                <imageView userInteractionEnabled="NO" tag="10" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Lc-YK-aQ9">
+                                                    <rect key="frame" x="15" y="0.0" width="137" height="112"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Un-mH-8BR">
-                                                    <rect key="frame" x="62" y="79" width="42" height="21"/>
+                                                    <rect key="frame" x="62" y="127" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -103,7 +99,9 @@
                                         <constraints>
                                             <constraint firstItem="9Un-mH-8BR" firstAttribute="top" secondItem="3Lc-YK-aQ9" secondAttribute="bottom" constant="15" id="4A2-ru-2NS"/>
                                             <constraint firstItem="9Un-mH-8BR" firstAttribute="centerX" secondItem="Hbo-gG-kpT" secondAttribute="centerX" id="5ug-GE-Q0w"/>
-                                            <constraint firstItem="3Lc-YK-aQ9" firstAttribute="centerX" secondItem="Hbo-gG-kpT" secondAttribute="centerX" id="Kuz-WF-NoL"/>
+                                            <constraint firstItem="3Lc-YK-aQ9" firstAttribute="leading" secondItem="Hbo-gG-kpT" secondAttribute="leading" constant="15" id="8iK-aE-Ep2"/>
+                                            <constraint firstAttribute="bottom" secondItem="9Un-mH-8BR" secondAttribute="bottom" constant="10" id="A1f-42-3ne"/>
+                                            <constraint firstAttribute="trailing" secondItem="3Lc-YK-aQ9" secondAttribute="trailing" constant="15" id="Gew-ky-avf"/>
                                             <constraint firstItem="yfc-sp-Upq" firstAttribute="leading" secondItem="Hbo-gG-kpT" secondAttribute="leading" id="QYw-7A-uGs"/>
                                             <constraint firstItem="yfc-sp-Upq" firstAttribute="top" secondItem="Hbo-gG-kpT" secondAttribute="top" id="Wrk-dR-xch"/>
                                             <constraint firstItem="3Lc-YK-aQ9" firstAttribute="top" secondItem="Hbo-gG-kpT" secondAttribute="top" id="YQC-gy-1SZ"/>
@@ -134,6 +132,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RkS-O8-Ffu"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Dsb-N2-uLU"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="TX9-2Y-mdc" id="1Jz-JP-nNP"/>
                         <outlet property="structureImageView" destination="a7e-dH-Ime" id="DXi-uE-1DO"/>
@@ -142,7 +142,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9MJ-6x-wbi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="69.599999999999994" y="174.96251874062969"/>
+            <point key="canvasLocation" x="408.80000000000001" y="174.96251874062969"/>
         </scene>
     </scenes>
     <resources>
