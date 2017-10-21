@@ -10,6 +10,7 @@
 
 @interface NestStructure : NSObject
 
+@property (strong, nonatomic) NSString *structureId;
 @property (strong, nonatomic) NSString *name;
 @property (assign, nonatomic) PSNestStructureAlarmState coAlarmState;
 @property (assign, nonatomic) PSNestStructureAlarmState smokeAlarmState;
@@ -17,5 +18,7 @@
 @property (strong, nonatomic) NSMutableArray *thermostats;
 @property (strong, nonatomic) NSMutableArray *smokeCOAlarms;
 @property (strong, nonatomic) NSMutableArray *cameras;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

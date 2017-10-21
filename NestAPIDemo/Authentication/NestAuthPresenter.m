@@ -11,9 +11,10 @@
 #import "PSNestRequestBuilder.h"
 #import "PSNestResponseParser.h"
 #import "NestAuthViewController.h"
-#import "Settings.h"
+#import "NestStructurePresenter.h"
 
 #import "PSNestAPIManager.h"
+#import "PSNestSessionManager.h"
 
 @interface NestAuthPresenter () <NestAuthViewControllerDelegate>
 
@@ -62,8 +63,11 @@
 
 - (void)authenticateWithAuthCode:(NSString *)authCode {
     [self.authManager authenticateWithAuthCode:authCode success:^(NSString *accessToken) {
-//        NSURLRequest *request = [[PSNestAPIManager ]]
-        
+        [self.presentingController dismissViewControllerAnimated:YES completion:^{
+            NestStructurePresenter *structurePresenter = [[NestStructurePresenter alloc] initWithPresentingViewController:_presentingController];
+            [structurePresenter showView];
+        }];
+
         NSLog(@"access token: %@", accessToken);
     } failure:^(NSError *error) {
         
@@ -79,8 +83,6 @@
     
     if (authCode) {
         [self authenticateWithAuthCode:authCode];
-        
-        [self.presentingController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

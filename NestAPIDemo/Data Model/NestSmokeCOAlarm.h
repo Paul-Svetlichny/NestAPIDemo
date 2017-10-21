@@ -14,6 +14,10 @@
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *batteryHealth;
 
+@property (assign, nonatomic) BOOL isOnline;
+
 @property (assign, nonatomic) PSNestStructureAlarmState alarmState;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

@@ -16,5 +16,6 @@
 
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults;
 - (void)setAccessTokenWithDictionary:(NSDictionary *)accessTokenDictionary;
+- (BOOL)isValidSession;
 
 @end

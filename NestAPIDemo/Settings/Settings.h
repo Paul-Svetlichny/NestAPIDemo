@@ -14,8 +14,16 @@
 typedef enum : NSUInteger {
     PSNestStructureAlarmStateOK,
     PSNestStructureAlarmStateWarning,
-    PSNestStructureAlarmStateEmergency
+    PSNestStructureAlarmStateEmergency,
+    PSNestStructureAlarmStateUndefined
 } PSNestStructureAlarmState;
+
+typedef enum : NSUInteger {
+    PSNestThermostatHVACStateHeating,
+    PSNestThermostatHVACStateCoolong,
+    PSNestThermostatHVACStateOff,
+    PSNestThermostatHVACStateUndefined
+} PSNestThermostatHVACState;
 
 extern NSString * const NestClientID;
 extern NSString * const NestClientSecret;
