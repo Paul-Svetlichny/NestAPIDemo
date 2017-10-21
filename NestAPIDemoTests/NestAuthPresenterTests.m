@@ -14,27 +14,16 @@
 
 @interface NestAuthPresenterTests : XCTestCase
 
-@property (strong, nonatomic) NestAuthPresenter *sut;
-
 @end
 
 @implementation NestAuthPresenterTests
 
 - (void)setUp {
     [super setUp];
-    self.sut = [[NestAuthPresenter alloc] initWithPresentingViewController:[[UIViewController alloc] init]];
 }
 
 - (void)tearDown {
-    self.sut = nil;
     [super tearDown];
-}
-
-- (void)testIfPresentingControllerIsNotNilAfterInitialization {
-    
-    NestAuthPresenter *presenter = [[NestAuthPresenter alloc] initWithPresentingViewController:nil];
-
-    assertThat(presenter.presentingController, is(notNilValue()));
 }
 
 - (void)testPerformanceExample {

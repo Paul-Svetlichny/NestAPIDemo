@@ -12,9 +12,13 @@
 
 - (instancetype)initWithURLSession:(NSURLSession *)urlSession;
 
-- (void)performRequest:(NSMutableURLRequest *)request
+- (void)performRequest:(NSURLRequest *)request
                success:(void (^)(NSData *data))success
               redirect:(void (^)(NSHTTPURLResponse *responseURL))redirect
+               failure:(void (^)(NSError *error))failure;
+
+- (void)performRequest:(NSURLRequest *)request
+               success:(void (^)(NSData *data))success
                failure:(void (^)(NSError *error))failure;
 
 @end

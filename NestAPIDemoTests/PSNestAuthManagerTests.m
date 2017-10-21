@@ -11,10 +11,13 @@
 #import <OCMockitoIOS/OCMockitoIOS.h>
 
 #import "PSNestAuthManager.h"
+#import "PSNestAPIManager.h"
+#import "PSNestResponseParser.h"
+#import "PSNestSessionManager.h"
 
 @interface PSNestAuthManagerTests : XCTestCase
 
-@property (strong, nonatomic) PSNestAuthManager *sut;
+@property (strong, nonatomic) PSNestAuthManager *authManager;
 
 @end
 
@@ -22,27 +25,142 @@
 
 - (void)setUp {
     [super setUp];
-    _sut = [[PSNestAuthManager alloc] init];
+    self.authManager = [[PSNestAuthManager alloc] init];
 }
 
 - (void)tearDown {
-    _sut = nil;
+    self.authManager = nil;
     [super tearDown];
 }
 
 - (void)testNestAPIManagerDidInvokePerformRequestWithProperRequest {
+    PSNestAPIManager *mockAPIManager = mock([PSNestAPIManager class]);
     
+    self.authManager.nestAPIManager = mockAPIManager;
+    NSURLRequest *authRequest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost"] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+
+    [self.authManager authenticateWithAuthRequest:authRequest success:nil failure:nil];
+
+    [verify(mockAPIManager) performRequest:authRequest success:anything() failure:anything()];
 }
 
-- (void)testAuthenticateWithAuthCodeShouldReturnFailureCallbackIfAuthCodeIsNil {
-    __block BOOL failureBlockInvoked = NO;
+- (void)testDataPassedToResponseParserAfterSuccess {
+    PSNestAPIManager *mockAPIManager = mock([PSNestAPIManager class]);
+    PSNestResponseParser *mockParserManager = mock([PSNestResponseParser class]);
 
-    [_sut authenticateWithAuthCode:nil success:^(NSString *accessToken) {
-    } failure:^(NSError *error) {
-        failureBlockInvoked = YES;
+    self.authManager.nestAPIManager = mockAPIManager;
+    self.authManager.responseParser = mockParserManager;
+
+    NSData *dataToTest = [[NSData alloc] init];
+
+    [given([mockParserManager responseDictionaryFromResponseData:anything()]) willReturn:@{}];
+    
+    [givenVoid([mockAPIManager performRequest:anything() success:anything() failure:anything()]) willDo:^id (NSInvocation *invocation) {
+        NSArray *args = [invocation mkt_arguments];
+        void (^successHandler)(NSData *data) = args[1];
+        successHandler(dataToTest);
+        return nil;
     }];
     
-    assertThatBool(failureBlockInvoked, isTrue());
+    [self.authManager authenticateWithAuthRequest:nil success:^(void) {
+        
+    } failure:nil];
+
+    [verify(mockParserManager) responseDictionaryFromResponseData:dataToTest];
+}
+
+- (void)testDictionaryPassedToNestSessionManagerAfterSuccess {
+    PSNestAPIManager *mockAPIManager = mock([PSNestAPIManager class]);
+    PSNestResponseParser *mockParserManager = mock([PSNestResponseParser class]);
+    PSNestSessionManager *mockSessionManager = mock([PSNestSessionManager class]);
+
+    self.authManager.nestAPIManager = mockAPIManager;
+    self.authManager.responseParser = mockParserManager;
+    self.authManager.nestSessionManager = mockSessionManager;
+
+    NSDictionary *dictionary = @{@"something":@"something good"};
+    
+    [given([mockParserManager responseDictionaryFromResponseData:anything()]) willReturn:dictionary];
+    
+    [givenVoid([mockAPIManager performRequest:anything() success:anything() failure:anything()]) willDo:^id (NSInvocation *invocation) {
+        NSArray *args = [invocation mkt_arguments];
+        void (^successHandler)(NSData *data) = args[1];
+        successHandler(nil);
+        return nil;
+    }];
+    
+    [self.authManager authenticateWithAuthRequest:nil success:^(void) {
+        
+    } failure:nil];
+    
+    [verify(mockSessionManager) setAccessTokenWithDictionary:dictionary];
+}
+
+- (void)testSuccessHandlerInvokedAfterSuccess {
+    PSNestAPIManager *mockAPIManager = mock([PSNestAPIManager class]);
+    PSNestResponseParser *mockParserManager = mock([PSNestResponseParser class]);
+    
+    self.authManager.nestAPIManager = mockAPIManager;
+    self.authManager.responseParser = mockParserManager;
+    
+    [given([mockParserManager responseDictionaryFromResponseData:anything()]) willReturn:@{}];
+    
+    [givenVoid([mockAPIManager performRequest:anything() success:anything() failure:anything()]) willDo:^id (NSInvocation *invocation) {
+        NSArray *args = [invocation mkt_arguments];
+        void (^successHandler)(NSData *data) = args[1];
+        successHandler(nil);
+        return nil;
+    }];
+    
+    __block BOOL successHandlerCalled = NO;
+    
+    [self.authManager authenticateWithAuthRequest:nil success:^(void) {
+        successHandlerCalled = YES;
+    } failure:nil];
+    
+    assertThatBool(successHandlerCalled, isTrue());
+}
+
+- (void)testFailureHandlerInvokedAfterSuccessWithWrongResponseData {
+    PSNestAPIManager *mockAPIManager = mock([PSNestAPIManager class]);
+    PSNestResponseParser *mockParserManager = mock([PSNestResponseParser class]);
+    
+    self.authManager.nestAPIManager = mockAPIManager;
+    self.authManager.responseParser = mockParserManager;
+    
+    NSError *returnError = [NSError errorWithDomain:@"someDomain" code:0 userInfo:nil];
+    
+    [given([mockParserManager responseDictionaryFromResponseData:anything()]) willReturn:@{@"error":returnError}];
+    
+    [givenVoid([mockAPIManager performRequest:anything() success:anything() failure:anything()]) willDo:^id (NSInvocation *invocation) {
+        NSArray *args = [invocation mkt_arguments];
+        void (^successHandler)(NSData *data) = args[1];
+        successHandler(nil);
+        return nil;
+    }];
+    
+    [self.authManager authenticateWithAuthRequest:nil success:nil failure:^(NSError *error) {
+        assertThat(error, is(returnError));
+    }];
+}
+
+- (void)testFailureHandlerInvokedAfterFailure {
+    PSNestAPIManager *mockAPIManager = mock([PSNestAPIManager class]);
+    
+    self.authManager.nestAPIManager = mockAPIManager;
+    
+    NSError *returnError = [NSError errorWithDomain:@"someDomain" code:0 userInfo:nil];
+
+    [givenVoid([mockAPIManager performRequest:anything() success:anything() failure:anything()]) willDo:^id (NSInvocation *invocation) {
+        NSArray *args = [invocation mkt_arguments];
+        void (^failureHandler)(NSError *error) = args[2];
+        failureHandler(returnError);
+        return nil;
+    }];
+    
+    [self.authManager authenticateWithAuthRequest:nil success:nil failure:^(NSError *error) {
+        assertThat(error, is(returnError));
+    }];
 }
 
 - (void)testPerformanceExample {

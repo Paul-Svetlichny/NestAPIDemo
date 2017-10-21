@@ -8,8 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class PSNestSessionManager;
+@class PSNestResponseParser;
+@class PSNestAPIManager;
+
 @interface PSNestAuthManager : NSObject
 
-- (void)authenticateWithAuthCode:(NSString *)authCode success:(void (^)(NSString *accessToken))success failure:(void (^)(NSError *error))failure;
+@property (strong, nonatomic) PSNestSessionManager *nestSessionManager;
+@property (strong, nonatomic) PSNestResponseParser *responseParser;
+@property (strong, nonatomic) PSNestAPIManager *nestAPIManager;
+
+- (void)authenticateWithAuthRequest:(NSURLRequest *)authRequest success:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 
 @end

@@ -24,7 +24,13 @@
     return self;
 }
 
-- (void)performRequest:(NSMutableURLRequest *)request
+- (void)performRequest:(NSURLRequest *)request
+               success:(void (^)(NSData *data))success
+               failure:(void (^)(NSError *error))failure {
+    [self performRequest:request success:success redirect:nil failure:failure];
+}
+
+- (void)performRequest:(NSURLRequest *)request
                success:(void (^)(NSData *data))success
               redirect:(void (^)(NSHTTPURLResponse *responseURL))redirect
                failure:(void (^)(NSError *error))failure {

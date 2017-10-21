@@ -24,6 +24,8 @@
 @property (strong, nonatomic) PSNestAuthManager *authManager;
 @property (strong, nonatomic) NestStructurePresenter *structurePresenter;
 
+@property (strong, nonatomic) PSNestRequestBuilder *nestRequestBuilder;
+
 @end
 
 @implementation NestAuthPresenter
@@ -44,13 +46,20 @@
     return _authManager;
 }
 
+- (PSNestRequestBuilder *)nestRequestBuilder {
+    if (!_nestRequestBuilder) {
+        _nestRequestBuilder = [[PSNestRequestBuilder alloc] init];
+    }
+    
+    return _nestRequestBuilder;
+}
+
 - (NestAuthViewController *)authController {
     if (!_authController) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Authentication" bundle:nil];
         _authController = (NestAuthViewController *)[storyboard instantiateViewControllerWithIdentifier:@"NestAuthViewController"];
         
-        PSNestRequestBuilder *nestRequestBuilder = [[PSNestRequestBuilder alloc] init];
-        _authController.request = [nestRequestBuilder loginRequest];
+        _authController.request = [self.nestRequestBuilder loginRequest];
         _authController.delegate = self;
     }
     
@@ -64,13 +73,14 @@
 #pragma mark - Authentication
 
 - (void)authenticateWithAuthCode:(NSString *)authCode {
-    [self.authManager authenticateWithAuthCode:authCode success:^(NSString *accessToken) {
+    
+    [self.authManager authenticateWithAuthRequest:[self.nestRequestBuilder authenticationRequestWithAuthCode:authCode] success:^(void) {
         [self.presentingController dismissViewControllerAnimated:YES completion:^{
             self.structurePresenter = [[NestStructurePresenter alloc] initWithPresentingViewController:_presentingController];
             [self.structurePresenter showView];
         }];
 
-        NSLog(@"access token: %@", accessToken);
+//        NSLog(@"access token: %@", accessToken);
     } failure:^(NSError *error) {
         
     }];

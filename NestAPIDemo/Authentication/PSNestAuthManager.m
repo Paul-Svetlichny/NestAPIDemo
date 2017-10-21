@@ -14,43 +14,47 @@
 
 @interface PSNestAuthManager ()
 
-@property (strong, nonatomic) PSNestSessionManager *nestSessionManager;
-
 @end
 
 @implementation PSNestAuthManager
 
-- (instancetype)init {
-    if (self = [super init]) {
+- (PSNestSessionManager *)nestSessionManager {
+    if (!_nestSessionManager) {
         _nestSessionManager = [[PSNestSessionManager alloc] initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
     }
     
-    return self;
+    return _nestSessionManager;
+}
+
+- (PSNestAPIManager *)nestAPIManager {
+    if (!_nestAPIManager) {
+        _nestAPIManager = [[PSNestAPIManager alloc] initWithURLSession:self.nestSessionManager.urlSession];
+    }
+    
+    return _nestAPIManager;
+}
+
+- (PSNestResponseParser *)responseParser {
+    if (!_responseParser) {
+        _responseParser = [[PSNestResponseParser alloc] init];
+    }
+    
+    return _responseParser;
 }
 
 #pragma mark - Authentication
 
-- (void)authenticateWithAuthCode:(NSString *)authCode success:(void (^)(NSString *accessToken))success failure:(void (^)(NSError *error))failure {
+- (void)authenticateWithAuthRequest:(NSURLRequest *)authRequest success:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     
-    if (authCode.length == 0) {
-        failure([NSError errorWithDomain:@"com.fireflydevelop.AuthManager" code:0 userInfo:@{NSLocalizedDescriptionKey : @"Auth code is empty"}]);
-        return;
-    }
-    
-    PSNestRequestBuilder *nestRequestBuilder = [[PSNestRequestBuilder alloc] init];
-    NSMutableURLRequest *authRequest = [nestRequestBuilder authenticationRequestWithAuthCode:authCode];
-    
-    PSNestAPIManager *nestAPIManager = [[PSNestAPIManager alloc] initWithURLSession:_nestSessionManager.urlSession];
-    [nestAPIManager performRequest:authRequest success:^(NSData *data) {
-        PSNestResponseParser *responseParser = [[PSNestResponseParser alloc] init];
-        NSDictionary *accessTokenDictionary = [responseParser responseDictionaryFromResponseData:data];
+    [self.nestAPIManager performRequest:authRequest success:^(NSData *data) {
+        
+        NSDictionary *accessTokenDictionary = [self.responseParser responseDictionaryFromResponseData:data];
         if (!accessTokenDictionary[@"error"]) {
-            [_nestSessionManager setAccessTokenWithDictionary:accessTokenDictionary];
-            success(_nestSessionManager.accessToken);
+            [self.nestSessionManager setAccessTokenWithDictionary:accessTokenDictionary];
+            success();
         } else {
             failure(accessTokenDictionary[@"error"]);
         }
-    } redirect:^(NSHTTPURLResponse *responseURL) {
     } failure:^(NSError *error) {
         failure(error);
     }];
