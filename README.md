@@ -44,7 +44,7 @@ Tests
 
 ## Versioning
 
-Current version is [0.0.1](1). There were no version changes during the development. Versioning will be applied on the later stages. This documentation will also reflect version changes.
+Current version is 0.0.1. There were no version changes during the development. Versioning will be applied on the later stages. This documentation will also reflect version changes.
 
 ## Authors
 
