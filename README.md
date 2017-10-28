@@ -15,6 +15,7 @@ The app provides the following functionality:
 - Display humidity
 - Display HVAC state
 - Display availability of: fan, heather, cooler, fan timer
+- REST streaming is used for working in real-time
 
 The current interface shows the availability of smoke-CO alarms, but this was not yet implemented and will be available in next app version.
 
@@ -34,7 +35,6 @@ Features
 
 - Add support for Smoke-CO alarms
 - Add camera support
-- Add syncing mechanism to sync system state in realtime
 
 Tests
 
@@ -44,7 +44,7 @@ Tests
 
 ## Versioning
 
-Current version is 0.0.1. There were no version changes during the development. Versioning will be applied on the later stages. This documentation will also reflect version changes.
+Current version is 0.1.0.
 
 ## Authors
 

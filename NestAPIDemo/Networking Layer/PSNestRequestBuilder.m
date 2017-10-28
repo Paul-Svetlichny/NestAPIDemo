@@ -39,7 +39,11 @@
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    if ([requestMethod isEqualToString:@"GET"]) {
+        [request setValue:@"text/event-stream" forHTTPHeaderField:@"Accept"];
+    } else {
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    }
     [request setValue:authBearer forHTTPHeaderField:@"Authorization"];
     [request setURL:[NSURL URLWithString:URL]];
     [request setHTTPMethod:requestMethod];

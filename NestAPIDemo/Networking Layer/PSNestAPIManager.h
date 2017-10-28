@@ -8,9 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol PSNestAPIManagerDelegate
+
+- (void)nestAPIManager:(id)manager didRecieveRedirectURLWithResponse:(NSURLResponse *)response;
+- (void)nestAPIManager:(id)manager didRecieveData:(NSData *)data;
+- (void)nestAPIManager:(id)manager didFinishRequestWithError:(NSError *)error;
+
+@end
+
 @interface PSNestAPIManager : NSObject
 
-- (instancetype)initWithURLSession:(NSURLSession *)urlSession;
+@property (weak, nonatomic) id <PSNestAPIManagerDelegate> delegate;
 
 - (void)performRequest:(NSURLRequest *)request
                success:(void (^)(NSData *data))success
@@ -20,5 +28,7 @@
 - (void)performRequest:(NSURLRequest *)request
                success:(void (^)(NSData *data))success
                failure:(void (^)(NSError *error))failure;
+
+- (void)performRequest:(NSURLRequest *)request;
 
 @end

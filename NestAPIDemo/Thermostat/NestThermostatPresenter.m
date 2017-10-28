@@ -61,39 +61,43 @@
 
 - (void)loadThermostatWithId:(NSString *)thermostatId {
     [self.thermostatManager nestThermostatWithThermostatId:self.thermostatId andCallback:^(NestThermostat *thermostat, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.thermostat = thermostat;
-            
-            [self displayTemperatureScale:self.thermostat.temperatureScale];
-            
-            [self displayThermostatName:self.thermostat.name];
-            
-            [self displayHumidity:self.thermostat.humidity];
-
-            [self displayHVACSate:self.thermostat.hvacState];
-            
-            if ([self.thermostat.temperatureScale isEqualToString:@"C"]) {
-                [self displayAmbientTemperature:self.thermostat.ambientTemperatureC];
-                
-                [self displayTargetTemperature:self.thermostat.targetTemperatureC];
-            } else {
-                [self displayAmbientTemperature:self.thermostat.ambientTemperatureF];
-                
-                [self displayTargetTemperature:self.thermostat.targetTemperatureF];
-            }
-            
-            [self displayCanCool:self.thermostat.canCool];
-            
-            [self displayHasFan:self.thermostat.hasFan];
-            
-            [self displayCanHeat:self.thermostat.canHeat];
-            
-            [self displayFanTimerActive:self.thermostat.fanTimerActive];
-        });
+        [self displayThermostat:thermostat];
     }];
 }
 
 #pragma mark - Displaying properties
+
+- (void)displayThermostat:(NestThermostat *)thermostat {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.thermostat = thermostat;
+        
+        [self displayTemperatureScale:self.thermostat.temperatureScale];
+        
+        [self displayThermostatName:self.thermostat.name];
+        
+        [self displayHumidity:self.thermostat.humidity];
+        
+        [self displayHVACSate:self.thermostat.hvacState];
+        
+        if ([self.thermostat.temperatureScale isEqualToString:@"C"]) {
+            [self displayAmbientTemperature:self.thermostat.ambientTemperatureC];
+            
+            [self displayTargetTemperature:self.thermostat.targetTemperatureC];
+        } else {
+            [self displayAmbientTemperature:self.thermostat.ambientTemperatureF];
+            
+            [self displayTargetTemperature:self.thermostat.targetTemperatureF];
+        }
+        
+        [self displayCanCool:self.thermostat.canCool];
+        
+        [self displayHasFan:self.thermostat.hasFan];
+        
+        [self displayCanHeat:self.thermostat.canHeat];
+        
+        [self displayFanTimerActive:self.thermostat.fanTimerActive];
+    });
+}
 
 - (void)displayThermostatName:(NSString *)name {
     self.thermostatController.name = name;
@@ -151,8 +155,10 @@
         [self displayAmbientTemperature:self.thermostat.ambientTemperatureC];
     }
 
+    __weak NestThermostatPresenter *weakself = self;
+
     [self.thermostatManager setTemperatureScale:temperatureScale forThermostsatWithId:self.thermostatId withCallback:^(NSString *temperatureScale) {
-        self.thermostat.temperatureScale = temperatureScale;
+        weakself.thermostat.temperatureScale = temperatureScale;
     }];
 }
 

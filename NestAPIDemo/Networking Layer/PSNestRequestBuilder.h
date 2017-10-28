@@ -19,5 +19,4 @@
                                         withData:(NSData *)data
                                   andAccessToken:(NSString *)accessToken;
 
-
 @end

@@ -8,7 +8,7 @@
 
 #import "PSNestSessionManager.h"
 
-@interface PSNestSessionManager ()
+@interface PSNestSessionManager () <NSURLSessionDataDelegate>
 
 @property (strong, nonatomic) NSUserDefaults *userDefaults;
 @property (strong, nonatomic) NestAccessToken *nestAccessToken;
@@ -44,11 +44,7 @@
 #pragma mark - Session Flow
 
 - (BOOL)isValidSession {
-    if ([self.nestAccessToken isValid]) {
-        return YES;
-    }
-    
-    return NO;
+    return [self.nestAccessToken isValid];
 }
 
 #pragma mark - Access Token Section

@@ -28,7 +28,7 @@
 
 - (PSNestAPIManager *)nestAPIManager {
     if (!_nestAPIManager) {
-        _nestAPIManager = [[PSNestAPIManager alloc] initWithURLSession:self.nestSessionManager.urlSession];
+        _nestAPIManager = [[PSNestAPIManager alloc] init];
     }
     
     return _nestAPIManager;
