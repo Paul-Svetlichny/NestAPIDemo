@@ -20,7 +20,7 @@
 
 @end
 
-@interface NestStructureViewController : UIViewController
+@interface NestStructureViewController : PSViewController
 
 @property (weak, nonatomic) id <NestStructureViewControllerDelegate> delegate;
 

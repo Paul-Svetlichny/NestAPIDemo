@@ -39,6 +39,8 @@
 		E8A425461F9A998E00B4F3B3 /* NestStructureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A425451F9A998E00B4F3B3 /* NestStructureViewController.m */; };
 		E8A425491F9A99AB00B4F3B3 /* PSNestStructureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A425481F9A99AB00B4F3B3 /* PSNestStructureManager.m */; };
 		E8A4254C1F9A99CA00B4F3B3 /* Structure.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8A4254B1F9A99CA00B4F3B3 /* Structure.storyboard */; };
+		E8E8CD2E1FA5F0240040DAD0 /* PSNestAPIManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E8CD2D1FA5F0240040DAD0 /* PSNestAPIManagerTests.m */; };
+		E8E8CD311FA5F4770040DAD0 /* PSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E8CD301FA5F4770040DAD0 /* PSViewController.m */; };
 		E8FB15AE1F9930A100E10F00 /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FB15AC1F9930A100E10F00 /* OCMockitoIOS.framework */; };
 		E8FB15AF1F9930A100E10F00 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FB15AD1F9930A100E10F00 /* OCHamcrestIOS.framework */; };
 		E8FB15B11F99319900E10F00 /* PSNestAuthManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FB15B01F99319900E10F00 /* PSNestAuthManagerTests.m */; };
@@ -115,6 +117,9 @@
 		E8A425471F9A99AB00B4F3B3 /* PSNestStructureManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSNestStructureManager.h; sourceTree = "<group>"; };
 		E8A425481F9A99AB00B4F3B3 /* PSNestStructureManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSNestStructureManager.m; sourceTree = "<group>"; };
 		E8A4254B1F9A99CA00B4F3B3 /* Structure.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Structure.storyboard; sourceTree = "<group>"; };
+		E8E8CD2D1FA5F0240040DAD0 /* PSNestAPIManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSNestAPIManagerTests.m; sourceTree = "<group>"; };
+		E8E8CD2F1FA5F4770040DAD0 /* PSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSViewController.h; sourceTree = "<group>"; };
+		E8E8CD301FA5F4770040DAD0 /* PSViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSViewController.m; sourceTree = "<group>"; };
 		E8FB15AC1F9930A100E10F00 /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMockitoIOS.framework; sourceTree = "<group>"; };
 		E8FB15AD1F9930A100E10F00 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		E8FB15B01F99319900E10F00 /* PSNestAuthManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSNestAuthManagerTests.m; sourceTree = "<group>"; };
@@ -145,6 +150,8 @@
 			children = (
 				E8019F6F1F9B2F4B000D9A6E /* PSUILabel.h */,
 				E8019F701F9B2F4B000D9A6E /* PSUILabel.m */,
+				E8E8CD2F1FA5F4770040DAD0 /* PSViewController.h */,
+				E8E8CD301FA5F4770040DAD0 /* PSViewController.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -209,6 +216,7 @@
 			children = (
 				E89AFE5F1F992FF200578B46 /* Frameworks */,
 				E830FFB11F97B250001C1CC5 /* NestAPIDemoTests.m */,
+				E8E8CD2D1FA5F0240040DAD0 /* PSNestAPIManagerTests.m */,
 				E8FB15B01F99319900E10F00 /* PSNestAuthManagerTests.m */,
 				E8019F7F1F9BA764000D9A6E /* NestAuthPresenterTests.m */,
 				E830FFB31F97B250001C1CC5 /* Info.plist */,
@@ -434,6 +442,7 @@
 				E830FFD41F98B132001C1CC5 /* NestAuthViewController.m in Sources */,
 				E8019F751F9B3F72000D9A6E /* NestThermostatViewController.m in Sources */,
 				E8A4252D1F9A2F4200B4F3B3 /* NestThermostat.m in Sources */,
+				E8E8CD311FA5F4770040DAD0 /* PSViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +453,7 @@
 				E8019F801F9BA764000D9A6E /* NestAuthPresenterTests.m in Sources */,
 				E8FB15B11F99319900E10F00 /* PSNestAuthManagerTests.m in Sources */,
 				E830FFB21F97B250001C1CC5 /* NestAPIDemoTests.m in Sources */,
+				E8E8CD2E1FA5F0240040DAD0 /* PSNestAPIManagerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

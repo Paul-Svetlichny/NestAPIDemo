@@ -18,6 +18,7 @@
 
 @interface PSNestAPIManager : NSObject
 
+@property (strong, nonatomic) NSURLSession *urlSession;
 @property (weak, nonatomic) id <PSNestAPIManagerDelegate> delegate;
 
 - (void)performRequest:(NSURLRequest *)request

@@ -19,7 +19,7 @@
 @interface NestStructurePresenter () <NestStructureViewControllerDelegate>
 
 @property (strong, nonatomic) UIViewController *presentingController;
-@property (strong, nonatomic) NestStructureViewController *structureController;
+@property (strong, nonatomic) NestStructureViewController *structureViewController;
 @property (strong, nonatomic) PSNestStructureManager *structureManager;
 @property (strong, nonatomic) NestThermostatPresenter *thermostatPresenter;
 
@@ -31,7 +31,7 @@
 
 - (instancetype)initWithPresentingViewController:(UIViewController *)presentingController {
     if (self = [super init]) {
-        _presentingController = presentingController;
+        self.presentingController = presentingController;
     }
     
     return self;
@@ -45,79 +45,88 @@
     return _structureManager;
 }
 
-- (NestStructureViewController *)structureController {
-    if (!_structureController) {
+- (NestStructureViewController *)structureViewController {
+    if (!_structureViewController) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Structure" bundle:nil];
-        _structureController = (NestStructureViewController *)[storyboard instantiateViewControllerWithIdentifier:@"NestStructureViewController"];
+        _structureViewController = (NestStructureViewController *)[storyboard instantiateViewControllerWithIdentifier:@"NestStructureViewController"];
         
-        _structureController.delegate = self;
+        _structureViewController.delegate = self;
     }
     
-    return _structureController;
+    return _structureViewController;
 }
 
 - (void)showView {
-    if (_presentingController.navigationController) {
-        _presentingController.navigationController.viewControllers = @[self.structureController];
+    if (self.presentingController.navigationController) {
+        self.presentingController.navigationController.viewControllers = @[self.structureViewController];
     }
 }
 
 - (void)loadStructure {
+    [self.structureViewController showNetworkActivityIndicator];
     [self.structureManager nestStructureWithCallback:^(NestStructure *structure, NSError *error) {
-        _structure = structure;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self displayStructureName:_structure.name];
-            
-            [self displayNumberOfThermostats:_structure.thermostats.count];
-            
-            [self displayNumberOfAlarms:_structure.smokeCOAlarms.count];
-            
-            //        There is no camera support in this demo
-            [self displayNumberOfIndoorCams:0];
-            
-            //        There is no camera support in this demo
-            [self displayNumberOfOutdoorCams:0];
-            
-            [self displaySmokeAlarmState:_structure.smokeAlarmState];
-        });
+        [self.structureViewController hideNetworkActivityIndicator];
+        
+        if (!error) {
+            self.structure = structure;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self displayStructure:structure];
+            });
+        }
     }];
 }
 
+- (void)displayStructure:(NestStructure *)structure {
+    [self displayStructureName:_structure.name];
+    
+    [self displayNumberOfThermostats:_structure.thermostats.count];
+    
+    [self displayNumberOfAlarms:_structure.smokeCOAlarms.count];
+    
+    //        There is no camera support in this demo
+    [self displayNumberOfIndoorCams:0];
+    
+    //        There is no camera support in this demo
+    [self displayNumberOfOutdoorCams:0];
+    
+    [self displaySmokeAlarmState:_structure.smokeAlarmState];
+}
+
 - (void)displayStructureName:(NSString *)name {
-    self.structureController.structureName = name;
+    self.structureViewController.structureName = name;
 }
 
 - (void)displayNumberOfThermostats:(NSUInteger)numberOfThermostats {
-    self.structureController.numberOfThermostats = numberOfThermostats;
+    self.structureViewController.numberOfThermostats = numberOfThermostats;
 }
 
 - (void)displayNumberOfAlarms:(NSUInteger)numberOfAlarms {
-    self.structureController.numberOfAlarms = numberOfAlarms;
+    self.structureViewController.numberOfAlarms = numberOfAlarms;
 }
 
 - (void)displayNumberOfIndoorCams:(NSUInteger)numberOfIndoorCams {
-    self.structureController.numberOfIndoorCameras = numberOfIndoorCams;
+    self.structureViewController.numberOfIndoorCameras = numberOfIndoorCams;
 }
 
 - (void)displayNumberOfOutdoorCams:(NSUInteger)numberOfOutdoorCams {
-    self.structureController.numberOfOutdoorCameras = numberOfOutdoorCams;
+    self.structureViewController.numberOfOutdoorCameras = numberOfOutdoorCams;
 }
 
 - (void)displaySmokeAlarmState:(PSNestStructureAlarmState)alarmState {
     switch (alarmState) {
         case PSNestStructureAlarmStateOK:
         {
-            self.structureController.backgroundColour = 0xFFFFFF;
+            self.structureViewController.backgroundColour = 0xFFFFFF;
         }
             break;
         case PSNestStructureAlarmStateWarning:
         {
-            self.structureController.backgroundColour = 0xFFA500;
+            self.structureViewController.backgroundColour = 0xFFA500;
         }
             break;
         case PSNestStructureAlarmStateEmergency:
         {
-            self.structureController.backgroundColour = 0xFF0000;
+            self.structureViewController.backgroundColour = 0xFF0000;
         }
             break;
         default:
@@ -133,8 +142,8 @@
 
 - (void)nestStructureViewControllerDidSelectThermostatButton:(UIViewController *)controller {
     NSString *thermostatId = _structure.thermostats[0];
-    _thermostatPresenter = [[NestThermostatPresenter alloc] initWithThermostatId:thermostatId andPresentingViewController:self.structureController];
-    [_thermostatPresenter showView];
+    self.thermostatPresenter = [[NestThermostatPresenter alloc] initWithThermostatId:thermostatId andPresentingViewController:self.structureViewController];
+    [self.thermostatPresenter showView];
 }
 
 - (void)nestStructureViewControllerDidSelectAlarmButton:(UIViewController *)controller {

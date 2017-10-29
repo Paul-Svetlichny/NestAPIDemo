@@ -10,6 +10,7 @@
 #define NestAPIDemo_pch
 
 #import "Settings.h"
+#import "PSViewController.h"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>

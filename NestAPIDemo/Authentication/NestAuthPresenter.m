@@ -20,7 +20,7 @@
 
 @property (strong, nonatomic, readwrite) UIViewController *presentingController;
 
-@property (strong, nonatomic) NestAuthViewController *authController;
+@property (strong, nonatomic) NestAuthViewController *authViewController;
 @property (strong, nonatomic) PSNestAuthManager *authManager;
 @property (strong, nonatomic) NestStructurePresenter *structurePresenter;
 
@@ -54,35 +54,36 @@
     return _nestRequestBuilder;
 }
 
-- (NestAuthViewController *)authController {
-    if (!_authController) {
+- (NestAuthViewController *)authViewController {
+    if (!_authViewController) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Authentication" bundle:nil];
-        _authController = (NestAuthViewController *)[storyboard instantiateViewControllerWithIdentifier:@"NestAuthViewController"];
+        _authViewController = (NestAuthViewController *)[storyboard instantiateViewControllerWithIdentifier:@"NestAuthViewController"];
         
-        _authController.request = [self.nestRequestBuilder loginRequest];
-        _authController.delegate = self;
+        _authViewController.request = [self.nestRequestBuilder loginRequest];
+        _authViewController.delegate = self;
     }
     
-    return _authController;
+    return _authViewController;
 }
 
 - (void)showView {
-    [self.presentingController presentViewController:self.authController animated:YES completion:nil];
+    [self.presentingController presentViewController:self.authViewController animated:YES completion:nil];
 }
 
 #pragma mark - Authentication
 
 - (void)authenticateWithAuthCode:(NSString *)authCode {
+    [self.authViewController showNetworkActivityIndicator];
     
     [self.authManager authenticateWithAuthRequest:[self.nestRequestBuilder authenticationRequestWithAuthCode:authCode] success:^(void) {
+        [self.authViewController hideNetworkActivityIndicator];
+
         [self.presentingController dismissViewControllerAnimated:YES completion:^{
             self.structurePresenter = [[NestStructurePresenter alloc] initWithPresentingViewController:_presentingController];
             [self.structurePresenter showView];
         }];
-
-//        NSLog(@"access token: %@", accessToken);
     } failure:^(NSError *error) {
-        
+        [self.authViewController hideNetworkActivityIndicator];
     }];
 }
 

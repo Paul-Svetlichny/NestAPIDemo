@@ -9,7 +9,6 @@
 #import "PSNestAuthManager.h"
 #import "PSNestAPIManager.h"
 #import "PSNestSessionManager.h"
-#import "PSNestRequestBuilder.h"
 #import "PSNestResponseParser.h"
 
 @interface PSNestAuthManager ()

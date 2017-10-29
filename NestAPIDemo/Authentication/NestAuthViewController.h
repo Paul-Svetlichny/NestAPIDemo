@@ -16,7 +16,7 @@
 
 @end
 
-@interface NestAuthViewController : UIViewController
+@interface NestAuthViewController : PSViewController
 
 @property (weak, nonatomic) id <NestAuthViewControllerDelegate> delegate;
 @property (strong, nonatomic) NSURLRequest *request;
